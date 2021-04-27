@@ -1,0 +1,15 @@
+@import url("../../index.css");
+.news-item-img {
+    height: 60vh;
+    width: 100%;
+}
+
+.news-item-heading {
+    font-size: 30px;
+    color: var(--clr-grey-1);
+}
+
+.paragraph {
+    background-color: var(--clr-grey-6);
+    font-size: 18px;
+}

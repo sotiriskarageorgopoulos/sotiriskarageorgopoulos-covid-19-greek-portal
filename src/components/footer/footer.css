@@ -1,0 +1,73 @@
+@import url("../../index.css");
+footer {
+    background-color: var(--clr-primary-5);
+}
+
+.footer-appointment {
+    position: absolute;
+    width: 100%;
+    bottom: -100px;
+}
+
+.footer-news {
+    position: absolute;
+    width: 100%;
+    bottom: -600px;
+}
+
+.footer-contact {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer-img {
+    width: 400px;
+    height: 200px;
+}
+
+.copyright {
+    font-size: 20px;
+    color: var(--clr-grey-10);
+    display: flex;
+    justify-content: center;
+    margin-top: 15%;
+}
+
+.icons-style {
+    font-size: 30px;
+    color: var(--clr-grey-10);
+}
+
+.icons-style:hover {
+    color: var(--clr-grey-8);
+    cursor: pointer;
+}
+
+@media only screen and (max-width:768px) {
+    .footer-img {
+        width: 200px;
+        height: 100px;
+    }
+    .icons-style {
+        font-size: 20px;
+    }
+    .copyright {
+        font-size: 14px;
+    }
+    .footer-news {
+        position: absolute;
+        width: 100%;
+        bottom: -400px;
+    }
+}
+
+@media only screen and (max-width:540px) {
+    .footer-appointment,
+    .footer-contact,
+    .footer-news {
+        position: unset;
+        width: unset;
+        bottom: unset;
+    }
+}

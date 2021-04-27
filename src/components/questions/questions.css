@@ -1,0 +1,29 @@
+@import url("../../index.css");
+.question-paragraph {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--clr-grey-2);
+}
+
+.answer-paragraph {
+    font-size: 16px;
+    color: var(--clr-grey-3)
+}
+
+.question-heading {
+    color: var(--clr-grey-1);
+}
+
+@media only screen and (max-width:375px) {
+    .question-paragraph {
+        font-size: 16px;
+    }
+
+    .answer-paragraph {
+        font-size: 14px;
+    }
+
+    .question-heading {
+        font-size: 25px
+    }
+}

@@ -1,0 +1,53 @@
+@import url("../../index.css");
+.form-statistics {
+    width: 100%;
+    background-color: var(--clr-white);
+    border: 2px outset var(--clr-white);
+    border-radius: var(--radius);
+    padding: 5%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.date-heading {
+    color: var(--clr-grey-1);
+    font-size: 25px;
+}
+
+.table {
+    background-color: var(--clr-white);
+}
+
+.thead-vaccinations {
+    background-color: var(--clr-primary-5);
+    border: 2px solid var(--clr-primary-5);
+    color: var(--clr-white);
+}
+
+.graph-style {
+    background-color: var(--clr-white);
+    padding: 2%;
+}
+
+.heading-statistics {
+    font-size: 30px;
+    color: var(--clr-grey-1)
+}
+
+@media only screen and (max-width:1280px) {
+    .date-heading,
+    .heading-statistics {
+        font-size: 18px;
+    }
+
+    .table-paragraph {
+        font-size:14px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    .days-inputs {
+        width: 60%;
+    }
+}

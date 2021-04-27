@@ -1,0 +1,130 @@
+@import url("../../index.css");
+.carousel-img {
+    height: 60vh;
+    width: 100%;
+}
+
+.first-box-img {
+    height: 50vh;
+    width: 100%
+}
+
+.news-title,
+.vaccination-procedure-heading,
+.first-box-heading {
+    color: var(--clr-grey-1);
+    font-weight: bold;
+}
+
+.vaccination-card {
+    width: 100%;
+    padding: 2%;
+}
+
+.vaccination-card-media {
+    height: 40vh;
+}
+
+.paragraph-2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--clr-grey-5);
+}
+
+.vaccination-card:hover {
+    background-color: var(--clr-grey-8);
+}
+
+.list-group {
+    background-color: var(--clr-grey-8);
+    font-size: 18px;
+}
+
+.btn {
+    background-color: var(--clr-grey-7);
+    color: var(--clr-grey-10);
+}
+
+.btn:hover {
+    background-color: var(--clr-grey-8);
+    color: var(--clr-grey-10);
+}
+
+.pagination-style {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1%;
+}
+
+.news-img {
+    height: 150px;
+    width: 300px;
+}
+
+.paragraph-3 {
+    color: var(--clr-grey-1);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+@media only screen and (min-width: 1280px) {
+    .paragraph-1 {
+        font-size: 30px;
+    }
+}
+
+@media only screen and (width: 1280px) {
+    .paragraph-1 {
+        font-size: 22px;
+    }
+    .paragraph-3 {
+        font-size: 14px;
+    }
+    .news-img {
+        height: 150px;
+        width: 250px;
+    }
+}
+
+@media only screen and (max-width:768px) and (max-height:1024px) {
+    .carousel-img {
+        height: 25vh;
+    }
+    .first-box-img {
+        height: 45vh;
+        padding-bottom: 2%;
+    }
+    .first-box-heading {
+        font-size: 20px;
+        font-weight: bolder;
+    }
+    .vaccination-card {
+        width: 100%;
+        padding: 2%;
+        margin-bottom: 5%;
+    }
+    .paragraph-1,
+    .first-box-heading,
+    .vaccination-procedure-heading {
+        font-size: 14px;
+    }
+    .list-group {
+        margin-bottom: 5%;
+    }
+    .news-img {
+        height: 100px;
+        width: 150px;
+    }
+    .paragraph-3 {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (width:768px) {
+    .vaccination-card-media {
+        height: 20vh;
+    }
+    .paragraph-2 {
+        font-size: 16px;
+    }
+}

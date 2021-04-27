@@ -1,0 +1,42 @@
+@import url("../../index.css");
+
+.input-fields {
+    width: 100%;
+}
+
+.appointment-success-text,
+.appointment-error-text {
+    margin: 5% auto 0 auto;
+    color: var(--clr-red-light);
+    background-color: var(--clr-grey-9);
+    border: 3px solid var(--clr-red-dark);
+    border-radius: var(--radius);
+    text-align:center;
+    padding: 2%;
+}
+
+.make-appointment-heading {
+    color: var(--clr-grey-1);
+}
+
+.appointment-paragraphs {
+    color: var(--clr-grey-2);
+}
+
+.appointment-success-text {
+    color: var(--clr-green-dark);
+    background-color: var(--clr-grey-9);
+    border-color: var(--clr-green-dark);
+}
+
+@media only screen and (max-width:768px) {
+    .make-appointment-heading {
+        font-size: 25px;
+    }
+}
+
+@media only screen and (max-width: 411px) {
+    .make-appointment-heading {
+        font-size: 18px;
+    }
+}
