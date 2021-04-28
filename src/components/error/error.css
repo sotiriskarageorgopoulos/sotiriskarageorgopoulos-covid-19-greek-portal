@@ -1,1 +1,18 @@
 @import url("../../index.css");
+.error-box {
+    background-color: var(--clr-primary-8);
+    padding: 5%;
+    font-size: 25px;
+    color: var(--clr-white);
+    border-radius: var(--radius);
+    text-align: center;
+}
+
+.error-title {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.distance-from-footer {
+    margin-bottom: 20%;
+}
