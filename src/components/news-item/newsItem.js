@@ -3,7 +3,11 @@ import Box from '@material-ui/core/Box';
 import {newsList} from '../news/newsList'
 import { v4 as uuidv4 } from 'uuid';
 import './newsItem.css';
-
+/**
+* @component
+* Μία είδηση του οργανισμού
+* @return JSX
+*/
 const NewsItem = () => {
     let path = window.location.pathname;
     let id = path.split("/")[2]

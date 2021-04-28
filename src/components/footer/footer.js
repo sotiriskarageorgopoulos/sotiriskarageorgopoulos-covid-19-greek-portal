@@ -8,6 +8,11 @@ import {Instagram} from 'react-bootstrap-icons';
 import {Youtube} from 'react-bootstrap-icons';
 import './footer.css';
 
+/**
+ * @component
+ * Το footer κάθε σελίδας
+ * @returns JSX
+ */
 const Footer = () => {
     let location = useLocation();
     let year = new Date().getFullYear();
@@ -17,12 +22,17 @@ const Footer = () => {
         setPath(location.pathname);
     }, [location]);
 
+    //Εκχώρηση CSS κλάσης ανάλογα με τη σελίδα που βρίσκεται ο χρήστης
     let footerClass = classNames({
         'footer-news':path.split("/")[1] === "news",
         'footer-contact':path.split("/")[1] === "contact",
         'footer-appointment':path.split("/")[1] === "appointment"
     });
     
+    /**
+     * Ανακατεύθυνση σε άλλη σελίδα με βάση το url που έχει δοθεί ως παράμετρος.
+     * @param {String} url 
+     */
     const goToPage = (url) => {
         window.open(url, '_blank');
     }

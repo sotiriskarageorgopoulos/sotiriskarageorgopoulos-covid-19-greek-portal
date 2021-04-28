@@ -14,6 +14,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router-dom';
 import './home.css';
 
+/**
+ * @component
+ * Η εμφάνιση της Αρχικής σελίδας
+ * @returns JSX
+ */
 const Home = () => {
     return (
         <>
@@ -24,7 +29,11 @@ const Home = () => {
         </>
     )
 }
-
+/** 
+* @component
+* Το carousel της σελίδας
+* @returns JSX
+*/
 const CarouselImages = () => {
     return (
     <Carousel>
@@ -39,6 +48,11 @@ const CarouselImages = () => {
 )
 }
 
+/**
+* @component
+* Οι γενικές πληροφορίες του οργανισμού
+* @returns JSX
+*/
 const GeneralInfo = () => {
     let boxStyle = {
         color:"hsl(211, 39%, 23%)",
@@ -73,6 +87,10 @@ const GeneralInfo = () => {
     )
 }
 
+/** 
+* @component
+* Πληροφορίες για τη διαδικασία εμβολιασμόυ.
+*/
 const VaccinationInfo = () => {
     let boxStyle = {
         color:"hsl(211, 39%, 23%)",
@@ -98,9 +116,18 @@ const VaccinationInfo = () => {
     )
 }
 
+/**
+* @component
+* Η Κάρτα με πληροφορίες για τον εμβολιασμό
+* @returns JSX
+*/
 const VaccinationCard = ({name,path,image,nameOfImage,content}) => {
     let history = useHistory();
 
+    /**
+    * Ανακατεύθυνση στη σελίδα
+    * @params pathName Όνομα του path 
+    */
     const goToPage = (pathName) => {
         history.push(pathName)
     } 
@@ -125,6 +152,11 @@ const VaccinationCard = ({name,path,image,nameOfImage,content}) => {
 
 }
 
+/** 
+* @component
+* Πληροφορίες που αφορούν τους πολίτες.
+* @returns JSX
+*/
 const InformationAboutCitizens = () => {
     let boxStyle = {
         color:"hsl(211, 39%, 23%)",
@@ -153,7 +185,11 @@ const InformationAboutCitizens = () => {
     )
 }
 
-
+/**
+* @component 
+* Λίστα με τα νέα του οργανισμού
+* @returns JSX
+*/
 export const NewsList = () => {
     let history = useHistory();
     const [pageNews,setPageNews] = useState(newsList.slice(0,5))
@@ -220,6 +256,11 @@ export const NewsList = () => {
     )
 }
 
+/**
+* @component
+* Βίντεο σχετικά με τη πανδημία covid-19
+* @returns JSX 
+*/
 const UsefulVideos = () => {
     return (
         <>

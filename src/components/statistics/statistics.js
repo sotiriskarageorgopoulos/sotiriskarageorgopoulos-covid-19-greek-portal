@@ -5,6 +5,11 @@ import {plotDataStructure} from './plotData';
 import $ from 'jquery';
 import './statistics.css';
 
+/**
+* @component 
+* Στατιστικά εμβολιασμών
+* @returns JSX 
+*/
 const Statistics = () => {
     const dateSearchObj = {
         date_from: "2020-12-28",
@@ -18,13 +23,20 @@ const Statistics = () => {
     const [searchedStatistics,setSearchedStatistics] = useState([]);
     const [plotData, setPlotData] = useState({});
 
+    /**
+    * Ανακτά τα δεδομένα μέχρι μία συγκεκριμένη μέρα.
+    */
     const getDataUntilDay = async() => {
         doGetRequest(searchDates);
         getFinalUpdateForVaccinations();
         createStatisticsForGraph()
     }
 
+    /** 
+    * Δημιουργεί τη κατάλλη μορφή που πρέπει να έχουν τα δεδομένα του γραφήματος
+    */
     const createStatisticsForGraph = () => {
+        /*Εκχωρεί τα δεδομένα εντός ενός χρονικού διαστήματος ταξινομημένα με βάση την ημερομηνία*/
         let graphStatisticsData = statistics
                                 .filter(s => new Date(s.referencedate.slice(0,10)) >= new Date(searchDates.date_from) 
                                         && new Date(s.referencedate.slice(0,10)) <= new Date(searchDates.date_to))
@@ -37,13 +49,13 @@ const Statistics = () => {
                                     }
                                 })
                                 .sort((s1,s2) => new Date(s1.referencedate) - new Date(s2.referencedate));
-        let allDates = graphStatisticsData.map(s => s.referencedate);
-        let uniqueDates = [...new Set(allDates)];
-        let labels = uniqueDates.map(l => l.slice(0,10));
-        let totaldoses1 = sumByDay(graphStatisticsData,uniqueDates,"totaldose1");
-        let totaldoses2 = sumByDay(graphStatisticsData,uniqueDates,"totaldose2");
-        let totalvaccinations = sumByDay(graphStatisticsData,uniqueDates,"totalvaccinations");
-      
+        let allDates = graphStatisticsData.map(s => s.referencedate); //εκχωρεί όλες τις ημερομηνίες 
+        let uniqueDates = [...new Set(allDates)]; //εκχωρεί μοναδικά κάθε ημερομηνία
+        let labels = uniqueDates.map(l => l.slice(0,10)); //εκχωρεί τη μορφή που θέλουμε να εμφανίζονται οι ημερομηνίες στο γράφημα
+        let totaldoses1 = sumByDay(graphStatisticsData,uniqueDates,"totaldose1"); //βρίσκουμε τις συνολικές πρώτες δόσεις κάθε ημέρας
+        let totaldoses2 = sumByDay(graphStatisticsData,uniqueDates,"totaldose2"); //βρίσκουμε τις συνολικές δεύτερες δόσεις κάθε ημέρας
+        let totalvaccinations = sumByDay(graphStatisticsData,uniqueDates,"totalvaccinations"); //βρίσκουμε τα συνολικά εμβόλια που χρησιμοποιήθηκαν κάθε ημέρα
+        /*Εισάγουμε τα δεδομένα σε ένα object για την εμφάνιση των δεδομένων στο γράφημα */
         plotDataStructure.labels = [...labels];
         plotDataStructure.datasets[0].data = [...totalvaccinations];
         plotDataStructure.datasets[1].data = [...totaldoses1];
@@ -51,6 +63,13 @@ const Statistics = () => {
         setPlotData({...plotDataStructure});
     }
 
+    /**
+     * Υπολογίζει το άθροισμα για κάθε μέρα
+     * @param {Array.<Object>} data Τα στατιστικά δεδομένα μέχρι ένα χρονικό διάστημα
+     * @param {Array.<String>} dates Οι ημερομηνίες των ενημερώσεων μέχρι εκείνη τη μέρα
+     * @param {String} prop Το όνομα της ιδιότητας
+     * @returns {Array.<Number>} 
+     */
     const sumByDay = (data,dates,prop) => {
         let arr = [];
         dates
@@ -69,6 +88,10 @@ const Statistics = () => {
         return arr;
     }
 
+    /**
+     * Κάνει ajax κλήση για την ανάκτηση των δεδομένων από το API για τα στατιστικά εμβολιασμών
+     * @param {Object} data Αντικείμενο με τις ημερομηνίες που περιγράφουν το χρονικό διάστημα εμβολιασμών
+     */
     const doGetRequest = async(data) => {
         if(statistics.length === 0) {
             $.ajax({
@@ -91,15 +114,19 @@ const Statistics = () => {
         }
     }
 
+    /** 
+    * Ανακτά τα δεδομένα για την εμφάνιση τους στο πίνακα
+    */
     const getFinalUpdateForVaccinations = () => {
         let {date_from,date_to} = searchDates;
+        /* Τα στατιστικά δεδομένα εντός του χρονικού διαστήματος που έχει τεθεί */
         let statisticsUntilDay = statistics
                                 .filter(s => new Date(s.referencedate.slice(0,10)) >= new Date(date_from) 
                                             && new Date(s.referencedate.slice(0,10)) <= new Date(date_to))
                                 .map(s => s);
-        let ids = statisticsUntilDay.map(s => s.areaid);
-        let uniqueIds = [...new Set(ids)];
-        let regionsUpdates = [];
+        let ids = statisticsUntilDay.map(s => s.areaid); //εκχωρεί μία με όλα τα αναγνωριστικά των περιφερειακών ενοτήτων
+        let uniqueIds = [...new Set(ids)]; //εκχωρεί μοναδικά τα αναγνωριστικά όλων των περιφερειακών ενοτήτων
+        let regionsUpdates = []; //αποθηκεύονται ομαδοποιημένες οι ενημερώσεις για κάθε περιφερειακή ενότητα.
         uniqueIds.map(id => {
             let regionObjs = statisticsUntilDay
                 .filter(s => s.areaid === id)
@@ -117,23 +144,29 @@ const Statistics = () => {
             return id;
         });
 
-        let regionsDates = regionsUpdates.map(region => {
+        /* Εκχωρεί τις ημερομηνίες που έχουν γίνει ενημερώσεις για κάθε περιφερειακή ενότητα */
+        let regionsDates = regionsUpdates.map(region => { 
             return region.map(s => new Date(s.referencedate));
         });
 
+        /* Εκχωρεί τη τελευταία ημερομηνία ενημέρωσης των δεδομένων εντός του χρονικού διαστήματος*/
         let latestUpdate = new Date(Math.max(...regionsDates.map(d => Math.max(...d))))
                               .toDateString();
 
+        /* Επιστρέφει τη τελευταία ενημέρωση για κάθε περιφερειακή ενότητα */
         let finalRegionsUpdates = regionsUpdates
                                  .map(region => {
                                     return region
-                                        .filter(s => new Date(s.referencedate.slice(0,10)).toDateString() == latestUpdate)
+                                        .filter(s => new Date(s.referencedate.slice(0,10)).toDateString() === latestUpdate)
                                         .map(s => s);
                                  });
 
         setSearchedStatistics(finalRegionsUpdates);
     }
 
+    /**
+     * @param {Object} event Το συμβάν που κάλεσε τη συνάρτηση
+     */
     const handleInputs = async(event) => {
         let name = event.target.name;
         let value = event.target.value;

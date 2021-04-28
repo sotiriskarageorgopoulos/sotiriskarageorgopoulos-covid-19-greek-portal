@@ -3,8 +3,12 @@ import Box from '@material-ui/core/Box';
 import {NewsList} from '../home/home';
 import './news.css';
 
+/** 
+* @component
+* Τα νέα του οργανισμού
+* @returns JSX
+*/
 const News = () => {
-    
     return (
         <Box>
             <div className="container-fluid">

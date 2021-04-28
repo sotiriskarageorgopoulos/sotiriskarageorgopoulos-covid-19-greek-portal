@@ -17,18 +17,34 @@ const Appointment = () => {
   return <StepperAppointment />;
 };
 
+/**
+ * @component
+ * Χρονοπρογραμματισμός ραντεβού για εμβολιασμό.
+ * @returns JSX
+ */
 const ScheduleAppointment = () => {
+  /**
+   * Δημιουργία Τυχαίας Ώρας
+   * @param {Date} start Αρχική Ημερομηνία
+   * @param {Date} end Τελική Ημερομηνία
+   * @returns {String}
+   */
   const createRandomDateTime = (start, end) => {
     let dateTimeInput = $("#datetime");
     let datetime = $("#datetime").val();
     dateTimeObj = {datetime,dateTimeInput};
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-    .toISOString()
-    .slice(0, 16);
+          .toISOString()
+          .slice(0, 16);
   };
 
   let [datetime, setDateTime] = useState(createRandomDateTime(new Date(), new Date(2021, 12, 12)));
 
+  /**
+   * Θέτει την ώρα που πήρε από το πεδίο της ώρας και εισάγει το πεδίο και την ώρα σε ένα 
+   * αντικειμένο.
+   * @param {Object} event Το συμβάν που κάλεσε τη σύναρτηση 
+   */
   const handleDatetime = (event) => {
     setDateTime(event.target.value);
     let dateTimeInput = $("#datetime");
@@ -62,7 +78,12 @@ const ScheduleAppointment = () => {
     </form>
   );
 };
-
+/**
+ * @component
+ * Εμφανίζει τη κατάλληλη φορμα, ανάλογα με τη μεταβλητή step
+ * @param {Number} step Ο αριθμός της φορμας
+ * @returns JSX
+ */
 const getStepContent = (step) => {
   switch (step) {
     case 0:
@@ -72,18 +93,33 @@ const getStepContent = (step) => {
   }
 };
 
+/**
+ * @component
+ * Δημιουργεί μία φόρμα όπου εμφανίζει δυναμικά περιεχόμενο, ανάλογα με το βήμα
+ * @returns JSX
+ */
 const StepperAppointment = () => {
   const [activeStep, setActiveStep] = useState(0);
   let history = useHistory();
 
+  /**
+   * @function
+   * Προσθέτει +1 το τρέχον βήμα, αν πατηθεί το κουμπί Επόμενο
+   */
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+  /**
+   * @function
+   * Αφαιρεί κατά 1 το τρέχον βήμα, αν πατηθεί το κουμπί Επιστροφή
+   */
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
+  /**
+   * Ο τίτλος κάθε φόρμας
+   */
   const steps = [
     "Επιλογή Ημερομηνίας και Ώρας Ραντεβού",
     "Συμπλήρωση Στοιχείων Πολίτη",
@@ -135,8 +171,11 @@ const StepperAppointment = () => {
   );
 }
 
+/**
+ * Δημιουργεί ένα νέο ραντεβού για εμβολιασμό.
+ */
 const createAppointment = () => {
-  console.log(appointmentObj);
+  console.log(appointmentObj); // το έχω αφήσει προκειμένου να βλέπουμε στην κονσολα τη μορφή του object
   if(Object.keys(appointmentObj).length !== 0) {
     let {appointmentDetails,validatedInputs} = appointmentObj;
     let isValid = validatedInputs.isName && validatedInputs.isSurname && validatedInputs.isEmail
@@ -171,6 +210,11 @@ const createAppointment = () => {
   }
 };
 
+/**
+ * @component 
+ * Η τελική φορμα για το ραντεβού εμβολιασμού.
+ * @returns JSX
+ */
 const AppointmentForm = () => {
   let formInputValidation = {
     isName: true,
@@ -209,16 +253,23 @@ const AppointmentForm = () => {
     },
   ];
 
+  /**
+   * Hooks για τον χειρισμό και την επικύρωση των δεδομένων των inputs.
+   */
   const [validatedInputs, setValidatedInputs] = useState(formInputValidation);
   const [errorTexts, setErrorText] = useState(texts);
   const [appointmentDetails, setAppointmentDetails] = useState(appointment);
 
   useEffect(() => {
     let {datetime,dateTimeInput} = dateTimeObj;
-    $("#add-datetime").append(dateTimeInput.prop("disabled", true));
-    setAppointmentDetails({...appointmentDetails,datetime});
+    $("#add-datetime").append(dateTimeInput.prop("disabled", true)); //προσθέτει στην τελευταία φορμα την ημερομηνία που επιλέχθηκε στη πρώτη φορμα
+    setAppointmentDetails({...appointmentDetails,datetime});//προσθέτει στο object την νέα ημερομηνία.
   },[]);
 
+  /**
+   * Εισαγωγή ορθών δεδομένων στο αντικειμένο που έχει πληροφορίες για το ραντεβου εμβολιασμού.
+   * @param {Object} event Το συμβαν που κάλεσε τη συνάρτηση
+   */
   const handleInputs = (event) => {
     let inputName = event.target.name;
     let value = event.target.value;
@@ -243,6 +294,10 @@ const AppointmentForm = () => {
     appointmentObj = {appointmentDetails,validatedInputs};
   };
 
+  /**
+   * Έλεγχος ορθότητας του email.
+   * @param {String} value Το email που έχει δοθεί από τον χρήστη
+   */
   const checkEmail = (value) => {
     let isValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
     if (isValid) {
@@ -254,6 +309,10 @@ const AppointmentForm = () => {
     }
   };
 
+  /**
+   * Έλεγχος ορθότητας του ΑΜΚΑ
+   * @param {String} value O ΑΜΚΑ που δόθηκε από τον χρήστη.
+   */
   const checkSocialSecurityNumber = (value) => {
     let isValid = /^\d{11}$/.test(value);
     if (isValid) {
@@ -264,6 +323,10 @@ const AppointmentForm = () => {
     }
   };
 
+  /**
+   * Έλεχγος ορθότητας του τηλεφωνικού αριθμού
+   * @param {String} value Ο τηλεφωνικός αριθμός που δόθηκε από τον χρήστη.
+   */
   const checkTel = (value) => {
     let isValid = /^\d{10}$/.test(value);
     if (isValid) {
@@ -275,6 +338,11 @@ const AppointmentForm = () => {
     }
   };
 
+  /**
+   * Ελέγχει αν το πεδίο είναι κενό.
+   * @param {String} inputName Όνομα πεδίου φορμας
+   * @param {String} value Τιμή πεδίου φόρμας
+   */
   const checkText = (inputName, value) => {
     let inputNameCapFirstLetter =
       "is" + inputName.charAt(0).toUpperCase() + inputName.slice(1);
@@ -286,7 +354,6 @@ const AppointmentForm = () => {
       setValidatedInputs({...validatedInputs,[inputNameCapFirstLetter]: false });
       setErrorText({...errorTexts,[inputErrorText]: "Δεν έχετε συμπληρώσει το πεδίο." });
     }
-    return "";
   };
 
   return (

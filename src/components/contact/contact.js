@@ -3,6 +3,11 @@ import TextField from '@material-ui/core/TextField';
 import $ from 'jquery';
 import './contact.css';
 
+/**
+ * @component
+ * Η φόρμα επικοινωνίας.
+ * @returns JSX
+ */
 const Contact = () => {
     let person = {
         name:"",
@@ -27,10 +32,18 @@ const Contact = () => {
         telErrorText:"",
         messageErrorText:""
     }
+
+     /**
+     * Hooks για τον χειρισμό και την επικύρωση των δεδομένων των inputs.
+     */
     const [validatedInputs, setValidatedInputs] = useState(formInputValidation);
     const [errorTexts, setErrorText] = useState(texts);
     const [personDetails, setPersonDetails] = useState(person);
 
+    /**
+     * Αποστολή μηνύματος-Απλώς εμφανίζει το object στην κονσολα
+     * @param {Object} event Το συμβάν που κάλεσε τη συνάρτηση
+     */
     const sendMessage = (event) => {
         event.preventDefault();
         let isFormValidated = validatedInputs.isName && validatedInputs.isSurname && validatedInputs.isEmail && validatedInputs.isTel && validatedInputs.isMessage;
@@ -42,6 +55,10 @@ const Contact = () => {
         }
     }
 
+    /**
+     * Εισαγωγή ορθών δεδομένων στο αντικειμένο που αποθηκεύονται τα δεδομένα επικοινωνίας.
+     * @param {Object} event Το συμβαν που κάλεσε τη συνάρτηση
+    */
     const handleInputs = (event) => {
         let inputName = event.target.name;
         let value = event.target.value;
@@ -64,6 +81,11 @@ const Contact = () => {
         }
     }
 
+    /**
+     * Ελέγχει αν το πεδίο είναι κενό.
+     * @param {String} inputName Όνομα πεδίου φορμας
+     * @param {String} value Τιμή πεδίου φόρμας
+     */
     const checkText = (inputName,value) => {
         let inputNameCapFirstLetter = "is"+inputName.charAt(0).toUpperCase() + inputName.slice(1);
         let inputErrorText = inputName+"ErrorText";
@@ -75,9 +97,12 @@ const Contact = () => {
             setValidatedInputs({...validatedInputs,[inputNameCapFirstLetter]:false}); 
             setErrorText({...errorTexts,[inputErrorText]:"Δεν έχετε συμπληρώσει το πεδίο."});
         }
-        return "";
     }
 
+    /**
+     * Έλεγχος ορθότητας του email.
+     * @param {String} value Το email που έχει δοθεί από τον χρήστη
+    */
     const checkEmail = (value) =>{
         let isValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
         if(isValid) {
@@ -89,6 +114,10 @@ const Contact = () => {
         }
     } 
 
+    /**
+     * Έλεχγος ορθότητας του τηλεφωνικού αριθμού
+     * @param {String} value Ο τηλεφωνικός αριθμός που δόθηκε από τον χρήστη.
+     */
     const checkTel = (value) => {
         let isValid = /^\d{10}$/.test(value);
         if(isValid) {
@@ -101,6 +130,10 @@ const Contact = () => {
 
     }
 
+    /**
+     * Έλεγχος αν το μήνυμα έχει τουλάχιστον 10 χαρακτήρες.
+     * @param {*} value To μήνυμα
+     */
     const checkMessage = (value) => {
         if(value.length < 10) {
             setValidatedInputs({...validatedInputs,"isMessage":false});

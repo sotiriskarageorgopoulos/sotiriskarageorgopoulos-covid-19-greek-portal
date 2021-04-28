@@ -2,7 +2,11 @@ import React from 'react-router';
 import Box from '@material-ui/core/Box';
 import {Link} from 'react-router-dom'; 
 import './error.css';
-
+/**
+ * @component
+ * Εμφάνιση 404 σελίδας, σε περίπτωση που δεν υπάρχει η σελίδα που ζητείται από τον χρήστη
+ * @returns JSX
+ */
 const Error = () => {
     return (
         <div className="container-fluid mt-5 distance-from-footer">

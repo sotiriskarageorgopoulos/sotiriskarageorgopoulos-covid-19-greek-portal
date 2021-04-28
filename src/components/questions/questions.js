@@ -7,6 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 import {questionsInfo} from './questionsInfo';
 import './questions.css';
 
+/**
+* @component
+* Συχνές ερωτήσεις
+* @return JSX 
+*/
 const Questions = () => {
     return (
         <div className="container-fluid">
@@ -22,6 +27,11 @@ const Questions = () => {
     )
 }
 
+/**
+* @component
+* Ακορντεόν με τις συχνές ερωτήσεις.
+* @return JSX
+*/
 const AccordionQuestions = () => {
     return (
         <>
