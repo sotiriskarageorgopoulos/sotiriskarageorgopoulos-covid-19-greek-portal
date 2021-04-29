@@ -180,8 +180,35 @@ const Statistics = () => {
        getDataUntilDay();
     },[statistics,searchDates]);
 
-    return (
-        <div className="container-fluid mt-5">
+    /**
+     * @component
+     * Δείχνει ένα spinner που δηλώνει τη φόρτωση της σελίδας.
+     * @returns JSX
+     */
+    const LoadingComponent = () => {
+        return (
+            <div className="container-fluid spinner-box">
+                <div className="row">
+                    <div className="col-sm-4"></div>
+                    <div className="col-sm-4 d-flex justify-content-center">
+                    <div class="spinner-border spinner-style" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    </div>
+                    <div className="col-sm-4"></div>
+                </div>
+            </div>
+        )
+    }
+
+    /**
+     * @component
+     * H σελίδα με τα στατιστικά δεδομένα σε πίνακα και σε γράφημα
+     * @returns JSX
+     */
+    const StatisticsPage = () => {
+        return (
+            <div className="container-fluid mt-5">
             <div className="row">
                 <div className="col-sm-2"></div>
                 <div className="col-sm-8">
@@ -252,6 +279,11 @@ const Statistics = () => {
                 <div className="col-sm-2"></div>
             </div>
         </div>
+        )
+    }
+
+    return (
+       searchedStatistics.length === 0 ? <LoadingComponent /> : <StatisticsPage />
     )
 }
 

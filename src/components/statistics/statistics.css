@@ -35,6 +35,17 @@
     color: var(--clr-grey-1)
 }
 
+.spinner-box {
+    margin-top: 10%;
+    margin-bottom: 20%;
+}
+
+.spinner-style {
+    width: 6rem;
+    height: 6rem;
+    color: var(--clr-primary-5);
+}
+
 @media only screen and (max-width:1280px) {
     .date-heading,
     .heading-statistics {
@@ -43,10 +54,18 @@
     .table-paragraph {
         font-size: 14px;
     }
+    .spinner-style {
+        margin-top: 20%;
+        margin-bottom: 20%;
+    }
 }
 
 @media only screen and (max-width:768px) {
     .days-inputs {
         width: 60%;
+    }
+    .spinner-box {
+        margin-top: 35%;
+        margin-bottom: 50%;
     }
 }
