@@ -191,8 +191,8 @@ const Statistics = () => {
                 <div className="row">
                     <div className="col-sm-4"></div>
                     <div className="col-sm-4 d-flex justify-content-center">
-                    <div class="spinner-border spinner-style" role="status">
-                        <span class="sr-only">Loading...</span>
+                    <div className="spinner-border spinner-style" role="status">
+                        <span className="sr-only">Loading...</span>
                     </div>
                     </div>
                     <div className="col-sm-4"></div>
