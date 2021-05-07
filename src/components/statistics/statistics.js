@@ -20,7 +20,7 @@ const Statistics = () => {
 
     const [searchDates,setSearchDates] = useState(dateSearchObj);
     const [statistics,setStatistics] = useState([]);
-    const [searchedStatistics,setSearchedStatistics] = useState([]);
+    const [vaccinesUntilToday,setVaccinesUntilToday] = useState(0);
     const [plotData, setPlotData] = useState({});
 
     /**
@@ -28,7 +28,7 @@ const Statistics = () => {
     */
     const getDataUntilDay = async() => {
         doGetRequest(searchDates);
-        getFinalUpdateForVaccinations();
+        calcTotalVaccinationsUntilToday();
         createStatisticsForGraph()
     }
 
@@ -115,16 +115,16 @@ const Statistics = () => {
     }
 
     /** 
-    * Ανακτά τα δεδομένα για την εμφάνιση τους στο πίνακα
+    * Υπολογίζει τα συνολικά εμβόλια μέχρι σήμερα.
     */
-    const getFinalUpdateForVaccinations = () => {
+    const calcTotalVaccinationsUntilToday = () => {
         let {date_from,date_to} = searchDates;
         /* Τα στατιστικά δεδομένα εντός του χρονικού διαστήματος που έχει τεθεί */
         let statisticsUntilDay = statistics
                                 .filter(s => new Date(s.referencedate.slice(0,10)) >= new Date(date_from) 
-                                            && new Date(s.referencedate.slice(0,10)) <= new Date(date_to))
+                                            && new Date(s.referencedate.slice(0,10)) <= new Date())
                                 .map(s => s);
-        let ids = statisticsUntilDay.map(s => s.areaid); //εκχωρεί μία με όλα τα αναγνωριστικά των περιφερειακών ενοτήτων
+        let ids = statisticsUntilDay.map(s => s.areaid); //εκχωρεί όλα τα αναγνωριστικά των περιφερειακών ενοτήτων
         let uniqueIds = [...new Set(ids)]; //εκχωρεί μοναδικά τα αναγνωριστικά όλων των περιφερειακών ενοτήτων
         let regionsUpdates = []; //αποθηκεύονται ομαδοποιημένες οι ενημερώσεις για κάθε περιφερειακή ενότητα.
         uniqueIds.map(id => {
@@ -158,10 +158,15 @@ const Statistics = () => {
                                  .map(region => {
                                     return region
                                         .filter(s => new Date(s.referencedate.slice(0,10)).toDateString() === latestUpdate)
-                                        .map(s => s);
+                                        .map(s => s.totalvaccinations)[0]
                                  });
-
-        setSearchedStatistics(finalRegionsUpdates);
+       
+        if(finalRegionsUpdates.length !== 0) {
+            /* Προσθέτει τις συνολικές δόσεις κάθε περιφερειακής ενότητας */
+            let totalVaccinesUntilToday = finalRegionsUpdates 
+                                      .reduce((accumulator,currentValue) => accumulator + currentValue)
+            setVaccinesUntilToday(totalVaccinesUntilToday)                  
+        }
     }
 
     /**
@@ -252,24 +257,26 @@ const Statistics = () => {
             <div className="row mt-5 mb-5">
                 <div className="col-sm-2"></div>
                 <div className="col-sm-8">
-                     <h2 className="mb-3 heading-statistics">Στατιστικά Εμβολιασμών ανά Περιφερειακή Ενότητα μέχρι {searchDates.date_to}</h2>
+                     <h2 className="mb-3 heading-statistics">Στατιστικά Εμβολίων από {searchDates.date_from} μέχρι {searchDates.date_to}</h2>
                      <table className="table">
                         <thead className="thead-vaccinations">
                             <tr>
-                                <th scope="col-sm">Περιφερειακή Ενότητα</th>
+                                <th scope="col-sm">Ημερομηνία</th>
+                                <th scope="col-sm">Eμβόλια</th>
                                 <th scope="col-sm">Eμβόλια α-δόσης</th>
                                 <th scope="col-sm">Eμβόλια β-δόσης</th>
-                                <th scope="col-sm">Συνολικά εμβόλια</th>
+                                <th scope="col-sm">Συνολικά εμβόλια μέχρι σήμερα</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {searchedStatistics.map(s => {
+                            {plotData.labels.map((label,index) => {
                                 return (
-                                    <tr key={s[0].areaid}>
-                                        <td className="table-paragraph">{s[0].area}</td>
-                                        <td className="table-paragraph">{s[0].totaldose1}</td>
-                                        <td className="table-paragraph">{s[0].totaldose2}</td>
-                                        <td className="table-paragraph">{s[0].totalvaccinations}</td>
+                                    <tr key={index}>
+                                        <td className="table-paragraph">{label}</td>
+                                        <td className="table-paragraph">{plotData.datasets[0].data[index].toLocaleString('de-DE')}</td>
+                                        <td className="table-paragraph">{plotData.datasets[1].data[index].toLocaleString('de-DE')}</td>
+                                        <td className="table-paragraph">{plotData.datasets[2].data[index].toLocaleString('de-DE')}</td>
+                                        <td className="table-paragraph">{vaccinesUntilToday.toLocaleString('de-DE')}</td>
                                     </tr>
                                 )
                             })}
@@ -283,7 +290,7 @@ const Statistics = () => {
     }
 
     return (
-       searchedStatistics.length === 0 ? <LoadingComponent /> : <StatisticsPage />
+       vaccinesUntilToday === 0 ? <LoadingComponent /> : <StatisticsPage />
     )
 }
 
