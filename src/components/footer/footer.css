@@ -6,19 +6,19 @@ footer {
 .footer-appointment {
     position: absolute;
     width: 100%;
-    bottom: -100px;
+    bottom: -400px;
 }
 
 .footer-news {
     position: absolute;
     width: 100%;
-    bottom: -600px;
+    bottom: -900px;
 }
 
 .footer-contact {
     position: absolute;
     width: 100%;
-    bottom: 0;
+    bottom: -200px;
 }
 
 .footer-img {
